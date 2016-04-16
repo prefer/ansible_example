@@ -1,0 +1,24 @@
+- name: Install packages
+  sudo: yes
+  apt: pkg={{ item }} state=latest update_cache=yes
+  with_items:
+      - python-dev
+      - python-pip
+
+- name: Install virtualenv
+  sudo: yes
+  pip: name=virtualenv
+
+- name: Manually create the initial virtualenv
+  command: virtualenv {{ virtualenv_dir }}
+
+- name: Install python requirements
+  pip:
+    requirements={{ app_dir }}/REQUIREMENTS
+    virtualenv={{ virtualenv_dir }}
+
+- name: Run migrates
+  django_manage:
+    command=migrate
+    app_path={{ app_dir }}
+    virtualenv={{ virtualenv_dir }}
