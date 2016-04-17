@@ -1,0 +1,16 @@
+- name: Configure deb list to install nodejs
+  sudo: yes
+  shell: curl -sL https://deb.nodesource.com/setup | sudo bash -
+
+- name: Install nodejs
+  sudo: yes
+  apt: pkg={{ item }} state=latest update_cache=yes
+  with_items:
+      - nodejs
+
+- name: Install bower
+  sudo: yes
+  npm: name=bower global=yes
+
+- name: Install js dependencies
+  bower: path={{ frontend_dir }}

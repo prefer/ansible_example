@@ -14,11 +14,11 @@
 
 - name: Install python requirements
   pip:
-    requirements={{ app_dir }}/REQUIREMENTS
+    requirements={{ backend_dir }}/REQUIREMENTS
     virtualenv={{ virtualenv_dir }}
 
 - name: Run migrates
   django_manage:
-    command=migrate
-    app_path={{ app_dir }}
+    command="migrate --run-syncd"
+    app_path={{ backend_dir }}
     virtualenv={{ virtualenv_dir }}
